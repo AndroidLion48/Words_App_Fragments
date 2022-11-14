@@ -55,7 +55,6 @@ class WordListFragment : Fragment() {
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
