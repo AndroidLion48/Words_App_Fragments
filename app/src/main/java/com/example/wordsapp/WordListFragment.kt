@@ -14,10 +14,7 @@ import com.example.wordsapp.databinding.FragmentWordListBinding
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private lateinit var recyclerView: RecyclerView
-private var isLinearLayoutManager = true
-private var _binding: FragmentWordListBinding? = null
-private val binding get() = _binding!!
+
 
 /**
  * A simple [Fragment] subclass.
@@ -26,6 +23,10 @@ private val binding get() = _binding!!
  */
 class WordListFragment : Fragment() {
 
+    private var _binding: FragmentWordListBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var letterId: String
+
     companion object {
         const val LETTER = "letter"
         const val SEARCH_PREFIX = "https://www.google.com/search?q="
@@ -33,8 +34,11 @@ class WordListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-        recyclerView = binding.recyclerView
+
+        // retrieves the LETTER from the Fragment arguments
+        arguments?.let {
+            letterId = it.getString(LETTER).toString()
+        }
     }
 
     override fun onCreateView(
@@ -42,19 +46,21 @@ class WordListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Retrieve and inflate the layout for this fragment
         _binding = FragmentWordListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recycleView = binding.recyclerView
+        val recyclerView: RecyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recycleView.adapter = WordAdapter(activity?.intent?.extras?.getString(LETTER).toString(), requireContext())
+        recyclerView.adapter = WordAdapter(letterId, requireContext())
 
-        recycleView.addItemDecoration(
+        recyclerView.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
