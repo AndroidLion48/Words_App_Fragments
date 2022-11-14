@@ -53,7 +53,7 @@ class LetterAdapter :
         val layout = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.item_view, parent, false)
-        
+
         // Setup custom accessibility delegate to set the text read
         layout.accessibilityDelegate = Accessibility
         return LetterViewHolder(layout)
@@ -74,7 +74,7 @@ class LetterAdapter :
             // Add the selected letter to the intent as extra data
             // The text of Buttons are [CharSequence], a list of characters,
             // so it must be explicitly converted into a [String].
-            intent.putExtra(DetailActivity.LETTER, holder.button.text.toString())
+            intent.putExtra(WordListFragment.LETTER, holder.button.text.toString())
             // Start an activity using the data and destination from the Intent.
             context.startActivity(intent)
         }
